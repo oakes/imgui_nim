@@ -1,9 +1,8 @@
 import nimgl/opengl
 from nimgl/glfw import GLFWKey
-import stb_image/read as stbi
 import pararules
 import sets
-from math import `mod`
+import nimgl/imgui, nimgl/imgui/impl_opengl
 
 when not defined(release):
   import paranim/gl
@@ -76,8 +75,16 @@ proc init*(game: var Game) =
   glEnable(GL_BLEND)
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
 
+  # imgui
+  doAssert igOpenGL3Init()
+  igStyleColorsCherry()
+
   # set initial values
   session.insert(Global, PressedKeys, initHashSet[int]())
+
+var show_demo: bool = true
+var somefloat: float32 = 0.0f
+var counter: int32 = 0
 
 proc tick*(game: Game) =
   session.insert(Global, DeltaTime, game.deltaTime)
@@ -85,7 +92,31 @@ proc tick*(game: Game) =
 
   let (windowWidth, windowHeight) = session.query(rules.getWindow)
 
-  glClearColor(173/255, 216/255, 230/255, 1f)
+  if show_demo:
+    igShowDemoWindow(show_demo.addr)
+
+  # Simple window
+  igBegin("Hello, world!")
+
+  igText("This is some useful text.")
+  igCheckbox("Demo Window", show_demo.addr)
+
+  igSliderFloat("float", somefloat.addr, 0.0f, 1.0f)
+
+  if igButton("Button", ImVec2(x: 0, y: 0)):
+    counter.inc
+  igSameLine()
+  igText("counter = %d", counter)
+
+  igText("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / igGetIO().framerate, igGetIO().framerate)
+  igEnd()
+  # End simple window
+
+  igRender()
+
+  glClearColor(0.45f, 0.55f, 0.60f, 1.00f)
   glClear(GL_COLOR_BUFFER_BIT)
-  glViewport(0, 0, int32(windowWidth), int32(windowHeight))
+  #glViewport(0, 0, int32(windowWidth), int32(windowHeight))
+
+  igOpenGL3RenderDrawData(igGetDrawData())
 

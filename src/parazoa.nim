@@ -1,5 +1,6 @@
 import nimgl/glfw
 import core
+import nimgl/imgui, nimgl/imgui/[impl_opengl, impl_glfw]
 
 when not defined(release):
   from paravim import nil
@@ -61,6 +62,9 @@ when isMainModule:
   w.makeContextCurrent()
   glfwSwapInterval(1)
 
+  let context = igCreateContext()
+  doAssert igGlfwInitForOpenGL(w, true)
+
   discard w.setKeyCallback(keyCallback)
   discard w.setCharCallback(charCallback)
   discard w.setMouseButtonCallback(mouseButtonCallback)
@@ -79,6 +83,9 @@ when isMainModule:
   game.totalTime = glfwGetTime()
 
   while not w.windowShouldClose:
+    igOpenGL3NewFrame()
+    igGlfwNewFrame()
+    igNewFrame()
     let ts = glfwGetTime()
     game.deltaTime = ts - game.totalTime
     game.totalTime = ts
@@ -89,5 +96,10 @@ when isMainModule:
     w.swapBuffers()
     glfwPollEvents()
 
+  igOpenGL3Shutdown()
+  igGlfwShutdown()
+  context.igDestroyContext()
+
   w.destroyWindow()
   glfwTerminate()
+
