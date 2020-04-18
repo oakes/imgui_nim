@@ -19,4 +19,4 @@ requires "pararules >= 0.2.0"
 
 # Dev Dependencies
 
-requires "paravim >= 0.9.0"
+requires "paravim >= 0.10.0"
