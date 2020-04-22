@@ -5,11 +5,11 @@ author        = "FIXME"
 description   = "FIXME"
 license       = "FIXME"
 srcDir        = "src"
-bin           = @["parazoa"]
+bin           = @["imgui_nim"]
 backend       = "cpp"
 
 task dev, "Run dev version":
-  exec "nimble run parazoa"
+  exec "nimble run imgui_nim"
 
 # Dependencies
 

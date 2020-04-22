@@ -55,7 +55,7 @@ when isMainModule:
   glfwWindowHint(GLFWOpenglProfile, GLFW_OPENGL_CORE_PROFILE)
   glfwWindowHint(GLFWResizable, GLFW_TRUE)
 
-  let w: GLFWWindow = glfwCreateWindow(1024, 768, "Parazoa")
+  let w: GLFWWindow = glfwCreateWindow(1024, 768, "IMGUI")
   if w == nil:
     quit(-1)
 
