@@ -4,13 +4,8 @@ import pararules
 import sets
 import nimgl/imgui, nimgl/imgui/impl_opengl
 
-when not defined(release):
-  import paranim/gl
-else:
-  type RootGame = object of RootObj
-
 type
-  Game* = object of RootGame
+  Game* = object
     deltaTime*: float
     totalTime*: float
   Id = enum
