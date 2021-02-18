@@ -14,6 +14,6 @@ task dev, "Run dev version":
 # Dependencies
 
 requires "nim >= 1.0.4"
-requires "nimgl >= 1.1.8"
-requires "pararules >= 0.3.0"
+requires "nimgl >= 1.1.9"
+requires "pararules >= 0.14.0"
 
